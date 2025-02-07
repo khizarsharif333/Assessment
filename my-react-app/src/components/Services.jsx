@@ -1,41 +1,57 @@
+import React, { useEffect, useState } from "react";
+
 const Services = () => {
-    return (
-      <section id="services" className="section">
-        <div className="container">
-            <h2>Our Services</h2>
-            <div className="service-grid">
-                <div className="service-card">
-                    <h3>Cloud Platforms</h3>
-                    <p>Scalable cloud strategies for enhanced performance & security.
-                        Protect your business from cyber threats with robust security
-                        Protect your business from cyber threats with robust security
-                    </p>
-                </div>
-                <div className="service-card">
-                    <h3>Cybersecurity Solutions</h3>
-                    <p>Protect your business from cyber threats with robust security
-                        Protect your business from cyber threats with robust security
-                        Protect your business from cyber threats with robust security.</p>
-                </div>
-                <div className="service-card">
-                    <h3>Software Development</h3>
-                    <p>Custom web and mobile applications to drive business growth.
-                        Protect your business from cyber threats with robust security
-                        Protect your business from cyber threats with robust security
-                    </p>
-                </div>
-                <div className="service-card">
-                    <h3>Web Development</h3>
-                    <p>Scalable cloud strategies for enhanced performance & security.
-                        Protect your business from cyber threats with robust security
-                        Protect your business from cyber threats with robust security
-                    </p>
-                </div>
-            </div>
-        </div>
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      const API_URL = "https://script.google.com/macros/s/AKfycbyIF7NGefZ5Ljhw2Xv2TPnWBqvA4WRwbRE5laVXUHXzkEooir2bHq7sqU24Lw_oGnTFJQ/exec";
+
+      try {
+        const response = await fetch(API_URL, {
+          method: "GET"
+        });
+
+        const data = await response.json();
+        if (data.status === "ok") {
+          setServices(data.data);
+        } else {
+          setError("Failed to load services.");
+        }
+      } catch (error) {
+        console.error("Error fetching Services:", error);
+        setError("An error occurred while fetching services.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchServices();
+  }, []);
+
+  return (
+    <section id="services" className="section">
+      <div className="container">
+        <h2>Our Services</h2>
+        {loading ? (
+          <p>Loading services...</p>
+        ) : error ? (
+          <p>{error}</p>
+        ) : (
+          <div className="service-grid">
+            {services.map((service, index) => (
+              <div key={index} className="service-card">
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </section>
-    );
-  };
-  
-  export default Services;
-  
+  );
+};
+
+export default Services;

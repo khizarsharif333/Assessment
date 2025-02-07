@@ -19,7 +19,7 @@ const Contact = () => {
     setIsSubmitting(true);
     setResponseMessage("");
 
-    const API_URL = "https://script.google.com/macros/s/AKfycbzgI9OXtNb5Uf8IZzaXD14dNUesQDK5YJWxcFIbQF5WgPE9HKYx_fU4C2U4tw58G10/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbzn5GdTi_NQFAaGr4AZwqxYgTkhSYlO9cE1fCJStqKx7gZ6CInAKvchIuFj9aMBoK2Z3w/exec";
 
     const response = await fetch(API_URL, {
       method: "POST",
@@ -29,6 +29,7 @@ const Contact = () => {
       },
       body: JSON.stringify(formData),
     });
+
 
     setResponseMessage("Message sent successfully!");
     setFormData({ name: "", email: "", message: "" });
